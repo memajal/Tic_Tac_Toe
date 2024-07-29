@@ -1,0 +1,19 @@
+﻿body
+{
+    text-align:center;
+}
+
+form input[type=text]{
+    width:100px;
+    height:30px;
+    margin: 10px;
+    border: 2px solid green;
+}
+
+form input[type=submit] {
+    background-color: green;
+    color:white;
+    padding: 10px;
+    border-radius:10px;
+    cursor:pointer;
+}
