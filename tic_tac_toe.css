@@ -3,17 +3,30 @@
     text-align:center;
 }
 
-form input[type=text]{
+ input[type=text]{
     width:100px;
     height:30px;
     margin: 10px;
     border: 2px solid green;
 }
 
-form input[type=submit] {
+button {
     background-color: green;
     color:white;
     padding: 10px;
     border-radius:10px;
     cursor:pointer;
+}
+
+#gameboard{
+    margin: 30px auto;
+    width:400px;
+    height:400px;
+    display:grid;
+    grid-template-columns: repeat(3, 33%);
+    gap:1px;
+}
+
+.board_square {
+    border: 1px solid black;
 }
