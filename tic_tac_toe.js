@@ -57,19 +57,21 @@ const StartGame = (() => {
         const squares = document.querySelectorAll(".board_square");
         squares.forEach((square) => {
             square.addEventListener("click", () => {
-               
-                if (currentPlayerIndex == 0) {
-                    currentPlayerIndex = 1;
-                    currentPlayerSymbol = Players[currentPlayerIndex].symbol;
+                if (square.innerHTML == "") {
+                    if (currentPlayerIndex == 0) {
+                        currentPlayerIndex = 1;
+                        currentPlayerSymbol = Players[currentPlayerIndex].symbol;
 
+                    }
+
+                    else if (currentPlayerIndex == 1) {
+                        currentPlayerIndex = 0;
+                        currentPlayerSymbol = Players[currentPlayerIndex].symbol;
+                    }
                 }
 
-                else if (currentPlayerIndex == 1) {
-                    currentPlayerIndex = 0;
-                    currentPlayerSymbol= Players[currentPlayerIndex].symbol;
-                }
-
-                console.log(square.id, currentPlayerIndex, currentPlayerSymbol);
+                square.innerHTML = currentPlayerSymbol;
+                console.log(square.id, currentPlayerIndex, currentPlayerSymbol, square.disabled);
             }
             );
         });
