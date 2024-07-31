@@ -4,14 +4,14 @@
 
 const GameBoard = (() => {
     // create an array with 9 elements that will be the gameborard sqauares
-    let gameBoard = [" ", " ", " ", " ", " ", " ", " ", " ", " "];
+    let gameBoardArray = [" ", " ", " ", " ", " ", " ", " ", " ", " "];
 
     // create a function to create a 9 square grid when the user click start
     const createGameBoard = () => {
         let boardHTML = "";
 
         /*for each element of gameBoard array add a div with class board_sqare and the id of the specific element */
-        for (let i = 0; i < gameBoard.length; i++)  {
+        for (let i = 0; i < gameBoardArray.length; i++)  {
             boardHTML+=`<div class="board_square" id=${i}></div>`         
         }     
         document.querySelector("#gameboard").innerHTML = boardHTML;
@@ -19,14 +19,14 @@ const GameBoard = (() => {
 
     //update function to update the array of the gameBoard with the values entered by the user
     const updateGameBoard = (index, value) => {
-        gameBoard[index] = value;
+        gameBoardArray[index] = value;
     }
 
 
     return {
         createGameBoard,
         updateGameBoard,
-        gameBoard,
+        gameBoardArray,
     }
 })();
 
@@ -67,6 +67,8 @@ const StartGame = (() => {
 
         squares.forEach((square) => {
             square.addEventListener("click", () => {
+
+               
                 //set the playerIndex and symbol only when the div is not filled
                 if (square.innerHTML == "") {
 
@@ -80,14 +82,22 @@ const StartGame = (() => {
                         currentPlayerIndex = 0;
                         currentPlayerSymbol = Players[currentPlayerIndex].symbol;
                     }
-
-                    GameBoard.updateGameBoard(square.id, currentPlayerSymbol);
                    
                 }
-
+ 
                 square.innerHTML = currentPlayerSymbol;
-                console.log(square.id, currentPlayerIndex, currentPlayerSymbol, GameBoard.gameBoard);
-            }
+                GameBoard.updateGameBoard(square.id, currentPlayerSymbol);
+                GameBoard.gameBoardArray;
+
+                if (gameOver(GameBoard.gameBoardArray)) {
+                    window.alert("Game ended! " + Players[currentPlayerIndex].name + " won!");
+                }
+               
+                console.log(GameBoard.gameBoardArray, gameOver(GameBoard.gameBoardArray));
+
+               
+             }
+               
             );
         });
     }
@@ -100,8 +110,9 @@ const StartGame = (() => {
 })();
 
 
-function gameOver(winningBoard) {
+function gameOver(board) {
     // winning combintions index of the gameBoard
+
     const winnerCombination = [
         [0, 1, 2],
         [3, 4, 5],
@@ -111,15 +122,20 @@ function gameOver(winningBoard) {
         [2, 5, 8],
         [0, 4, 8],
         [2, 4, 6]
-    ];
-
+    ]
+   
+    //
     for (let i = 0; i < winnerCombination.length; i++) {
+        //control if the array has one of these combination, if yes, return true, else false
         const [a, b, c] = winnerCombination[i];
-        if (winningBoard[a] && winningBoard[a] == winningBoard[b] && winningBoard[a] == winningBoard[c]) {
-            return true;
-        }
+        if (board[a] !=" " && board[b] !=" " && board[c] !=" " && board[a] === board[b] && board[a] === board[c]) {
+    
+                return true;
+            }
+      
     }
-    return false;
+ 
+return false;
 
 }
 
