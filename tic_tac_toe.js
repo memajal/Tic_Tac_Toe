@@ -55,9 +55,12 @@ const StartGame = (() => {
 
         // create an event listener click every time the user click in one of the gameboard squares and print the sqare id
         const squares = document.querySelectorAll(".board_square");
+
         squares.forEach((square) => {
             square.addEventListener("click", () => {
+                //set the playerIndex and symbol only when the div is not filled
                 if (square.innerHTML == "") {
+
                     if (currentPlayerIndex == 0) {
                         currentPlayerIndex = 1;
                         currentPlayerSymbol = Players[currentPlayerIndex].symbol;
@@ -68,10 +71,12 @@ const StartGame = (() => {
                         currentPlayerIndex = 0;
                         currentPlayerSymbol = Players[currentPlayerIndex].symbol;
                     }
+
+                   
                 }
 
                 square.innerHTML = currentPlayerSymbol;
-                console.log(square.id, currentPlayerIndex, currentPlayerSymbol, square.disabled);
+                console.log(square.id, currentPlayerIndex, currentPlayerSymbol);
             }
             );
         });
@@ -82,18 +87,37 @@ const StartGame = (() => {
        start,
     }
 
-
-
 })();
+
+
+function gameOver(winningBoard) {
+    // winning combintions index of the gameBoard
+    const winnerCombination = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6]
+    ];
+
+    for (let i = 0; i < winnerCombination.length; i++) {
+        const [a, b, c] = winnerCombination[i];
+        if (winningBoard[a] && winningBoard[a] == winningBoard[b] && winningBoard[a] == winningBoard[c]) {
+            return true;
+        }
+    }
+    return false;
+
+}
 
 
 
 
 let startGameButton = document.querySelector("#start_game");
 startGameButton.addEventListener("click", () => {
-    StartGame.start();
-   
+    StartGame.start(); 
 
-}
-
-);
+});
