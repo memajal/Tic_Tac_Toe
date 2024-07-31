@@ -11,13 +11,22 @@ const GameBoard = (() => {
         let boardHTML = "";
 
         /*for each element of gameBoard array add a div with class board_sqare and the id of the specific element */
-        for (let i = 1; i <= gameBoard.length; i++)  {
+        for (let i = 0; i < gameBoard.length; i++)  {
             boardHTML+=`<div class="board_square" id=${i}></div>`         
         }     
         document.querySelector("#gameboard").innerHTML = boardHTML;
     }
+
+    //update function to update the array of the gameBoard with the values entered by the user
+    const updateGameBoard = (index, value) => {
+        gameBoard[index] = value;
+    }
+
+
     return {
         createGameBoard,
+        updateGameBoard,
+        gameBoard,
     }
 })();
 
@@ -72,11 +81,12 @@ const StartGame = (() => {
                         currentPlayerSymbol = Players[currentPlayerIndex].symbol;
                     }
 
+                    GameBoard.updateGameBoard(square.id, currentPlayerSymbol);
                    
                 }
 
                 square.innerHTML = currentPlayerSymbol;
-                console.log(square.id, currentPlayerIndex, currentPlayerSymbol);
+                console.log(square.id, currentPlayerIndex, currentPlayerSymbol, GameBoard.gameBoard);
             }
             );
         });
