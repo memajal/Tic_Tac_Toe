@@ -58,7 +58,6 @@ const StartGame = (() => {
      
     
         // call the crateGameBoard here
-
         console.log(Players, currentPlayerIndex);
         GameBoard.createGameBoard();
 
@@ -71,29 +70,38 @@ const StartGame = (() => {
                
                 //set the playerIndex and symbol only when the div is not filled
                 if (square.innerHTML == "") {
-
                     if (currentPlayerIndex == 0) {
                         currentPlayerIndex = 1;
                         currentPlayerSymbol = Players[currentPlayerIndex].symbol;
-
+                        square.innerHTML = currentPlayerSymbol;
                     }
 
                     else if (currentPlayerIndex == 1) {
                         currentPlayerIndex = 0;
                         currentPlayerSymbol = Players[currentPlayerIndex].symbol;
+                        square.innerHTML = currentPlayerSymbol;
                     }
+                    
+                    GameBoard.updateGameBoard(square.id, currentPlayerSymbol);
                    
                 }
  
-                square.innerHTML = currentPlayerSymbol;
-                GameBoard.updateGameBoard(square.id, currentPlayerSymbol);
-                GameBoard.gameBoardArray;
+                
 
                 if (gameOver(GameBoard.gameBoardArray)) {
                     window.alert("Game ended! " + Players[currentPlayerIndex].name + " won!");
+                    restart();
+                }
+
+                else if (gameDraw(GameBoard.gameBoardArray))   {
+                    window.alert("Game ended! It´s a draw!")
+                    restart();
+                  
                 }
                
                 console.log(GameBoard.gameBoardArray, gameOver(GameBoard.gameBoardArray));
+                return currentPlayerIndex; //return to use to the restart
+          
 
                
              }
@@ -102,9 +110,22 @@ const StartGame = (() => {
         });
     }
 
+    const restart = () => {
+        let gameboardDivs = document.querySelector("#gameboard").children;
+        for (let i = 0; i < 9; i++) {
+            // update the array of the gameBoard with empty values and update the innerHtml of the divs
+            GameBoard.updateGameBoard(i, " ");
+            gameboardDivs[i].innerHTML="";
+        }
+        //set the playerIndex 1
+        currentPlayerIndex = 1;
+
+    }
+
     //export start to be used outside the module
    return {
        start,
+       restart,
     }
 
 })();
@@ -128,15 +149,25 @@ function gameOver(board) {
     for (let i = 0; i < winnerCombination.length; i++) {
         //control if the array has one of these combination, if yes, return true, else false
         const [a, b, c] = winnerCombination[i];
-        if (board[a] !=" " && board[b] !=" " && board[c] !=" " && board[a] === board[b] && board[a] === board[c]) {
-    
-                return true;
-            }
+        if (board[a] != " " && board[b] != " " && board[c] != " " && board[a] === board[b] && board[a] === board[c]) {
+
+            return true;
+        }
       
     }
  
 return false;
 
+}
+
+// function to controll if no one has won 
+function gameDraw(board) {
+
+    if (board.includes(" ", 0)) {
+        return false;
+        }
+    
+    return true;
 }
 
 
