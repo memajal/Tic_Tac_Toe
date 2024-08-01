@@ -31,17 +31,27 @@ const GameBoard = (() => {
 })();
 
 
-// use a factory to create players because we have multiple players
+// module for display Controller 
+const displayController = (() => {
+    const addMessage = (message) => {
+        document.querySelector("#display_message").innerHTML = message;
+        console.log(message);
+    }
 
+    return {
+        addMessage
+    }
+})();
+
+
+// use a factory to create players because we have multiple players
 const createPlayers = (name, symbol) => {
     return { name, symbol };
 
 }
 
 
-
 /* create the logic to start the game  with the module StartGame*/
-
 const StartGame = (() => {
 
     let Players = [];  /*array that holds the 2 players */
@@ -89,12 +99,13 @@ const StartGame = (() => {
                 
 
                 if (gameOver(GameBoard.gameBoardArray)) {
-                    window.alert("Game ended! " + Players[currentPlayerIndex].name + " won!");
+                    displayController.addMessage("Game ended! " + Players[currentPlayerIndex].name + " won!")
                     restart();
                 }
 
                 else if (gameDraw(GameBoard.gameBoardArray))   {
-                    window.alert("Game ended! It´s a draw!")
+                    displayController.addMessage("Game ended! Its a draw!")
+
                     restart();
                   
                 }
