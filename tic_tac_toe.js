@@ -79,17 +79,19 @@ const StartGame = (() => {
 
                
                 //set the playerIndex and symbol only when the div is not filled
-                if (square.innerHTML == "") {
+                if (square.innerHTML == "" && gameOver(GameBoard.gameBoardArray)==false) {
                     if (currentPlayerIndex == 0) {
                         currentPlayerIndex = 1;
                         currentPlayerSymbol = Players[currentPlayerIndex].symbol;
                         square.innerHTML = currentPlayerSymbol;
+                        square.style.color = "#45474B";
                     }
 
                     else if (currentPlayerIndex == 1) {
                         currentPlayerIndex = 0;
                         currentPlayerSymbol = Players[currentPlayerIndex].symbol;
                         square.innerHTML = currentPlayerSymbol;
+                        square.style.color = "#379777";
                     }
                     
                     GameBoard.updateGameBoard(square.id, currentPlayerSymbol);
@@ -98,20 +100,19 @@ const StartGame = (() => {
  
                 
 
-                if (gameOver(GameBoard.gameBoardArray)) {
-                    displayController.addMessage("Game ended! " + Players[currentPlayerIndex].name + " won!")
-                    restart();
+                if (gameOver(GameBoard.gameBoardArray)) {  
+                    displayController.addMessage("Game ended! " + Players[currentPlayerIndex].name + " won! Restart the game! ")
+                    
                 }
 
                 else if (gameDraw(GameBoard.gameBoardArray))   {
-                    displayController.addMessage("Game ended! Its a draw!")
-
-                    restart();
+                    displayController.addMessage("Game ended! Its a draw! Restart the game! ")
                   
                 }
                
-                console.log(GameBoard.gameBoardArray, gameOver(GameBoard.gameBoardArray));
+                console.log(GameBoard.gameBoardArray, gameOver(GameBoard.gameBoardArray), Players);
                 return currentPlayerIndex; //return to use to the restart
+                return Players;
           
 
                
@@ -126,8 +127,14 @@ const StartGame = (() => {
         for (let i = 0; i < 9; i++) {
             // update the array of the gameBoard with empty values and update the innerHtml of the divs
             GameBoard.updateGameBoard(i, " ");
-            gameboardDivs[i].innerHTML="";
+            gameboardDivs[i].innerHTML = ""
         }
+
+        Players[0].name = "";
+        Players[1].name = "";
+        document.querySelector("#player1").value = "";
+        document.querySelector("#player2").value = "";
+
         //set the playerIndex 1
         currentPlayerIndex = 1;
 
@@ -188,4 +195,10 @@ let startGameButton = document.querySelector("#start_game");
 startGameButton.addEventListener("click", () => {
     StartGame.start(); 
 
+});
+
+
+let restartButton = document.querySelector("#restart");
+restartButton.addEventListener("click", () => {
+    StartGame.restart();
 });
